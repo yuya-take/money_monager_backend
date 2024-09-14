@@ -1,0 +1,126 @@
+{
+    "TableName": "MoneyManager",
+    "AttributeDefinitions": [
+      {
+        "AttributeName": "UserId",
+        "AttributeType": "S"
+      },
+      {
+        "AttributeName": "DataType",
+        "AttributeType": "S"
+      },
+      {
+        "AttributeName": "CategoryId",
+        "AttributeType": "S"
+      },
+      {
+        "AttributeName": "Date",
+        "AttributeType": "S"
+      },
+      {
+        "AttributeName": "IsDeleted",
+        "AttributeType": "S"
+      },
+      {
+        "AttributeName": "Amount",
+        "AttributeType": "S"
+      }
+    ],
+    "KeySchema": [
+      {
+        "AttributeName": "UserId",
+        "KeyType": "HASH"
+      },
+      {
+        "AttributeName": "DataType",
+        "KeyType": "RANGE"
+      }
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 1,
+        "WriteCapacityUnits": 1
+    },
+    "GlobalSecondaryIndexes": [
+      {
+        "IndexName": "GSI-1",
+        "KeySchema": [
+          {
+            "AttributeName": "CategoryId",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "Date",
+            "KeyType": "RANGE"
+          }
+        ],
+        "Projection": {
+          "ProjectionType": "ALL"
+        },
+        "ProvisionedThroughput": {
+            "ReadCapacityUnits": 1,
+            "WriteCapacityUnits": 1
+        }
+      },
+      {
+        "IndexName": "GSI-2",
+        "KeySchema": [
+          {
+            "AttributeName": "IsDeleted",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "UserId",
+            "KeyType": "RANGE"
+          }
+        ],
+        "Projection": {
+          "ProjectionType": "ALL"
+        },
+        "ProvisionedThroughput": {
+            "ReadCapacityUnits": 1,
+            "WriteCapacityUnits": 1
+        }
+      },
+      {
+        "IndexName": "GSI-3",
+        "KeySchema": [
+          {
+            "AttributeName": "UserId",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "Amount",
+            "KeyType": "RANGE"
+          }
+        ],
+        "Projection": {
+          "ProjectionType": "ALL"
+        },
+        "ProvisionedThroughput": {
+            "ReadCapacityUnits": 1,
+            "WriteCapacityUnits": 1
+        }
+      },
+      {
+        "IndexName": "GSI-4",
+        "KeySchema": [
+          {
+            "AttributeName": "UserId",
+            "KeyType": "HASH"
+          },
+          {
+            "AttributeName": "Date",
+            "KeyType": "RANGE"
+          }
+        ],
+        "Projection": {
+          "ProjectionType": "ALL"
+        },
+        "ProvisionedThroughput": {
+            "ReadCapacityUnits": 1,
+            "WriteCapacityUnits": 1
+        }
+      }
+    ]
+  }
+  

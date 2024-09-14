@@ -1,0 +1,17 @@
+[workspace]
+members = [ 
+    "money-manager-adapter",
+    "money-manager-app",
+    "money-manager-driver",
+    "money-manager-domain"
+]
+resolver = "2"
+
+[workspace.package]
+version = "1.0.0"
+description = "API for smcon application"
+
+[workspace.dependencies]
+# 日付関連クレート
+chrono = { version = "0.4.38", features = ["serde"] }
+chrono-tz = { version = "0.10.0", features = ["serde"] }

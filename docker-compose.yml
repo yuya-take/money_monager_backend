@@ -1,15 +1,21 @@
-version: '3.8'
 services:
-  postgres:
-    image: postgres
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: axum-project
+  dynamodb-money-manager:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-money-manager
     ports:
-      - "54320:5432"
+      - "8000:8000"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+    user: root
 
-volumes:
-  postgres_data:
+  dynamodb-money-manager-admin:
+    container_name: dynamodb-money-manager-admin
+    image: aaronshaf/dynamodb-admin:latest
+    environment:
+      DYNAMO_ENDPOINT: ${DYNAMO_ENDPOINT}
+    ports:
+      - "8001:8001"
+    depends_on:
+      - dynamodb-money-manager

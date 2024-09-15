@@ -10,14 +10,6 @@
 - 作成日
 - 更新日
 
-### 二重認証コード管理
-- コードID
-- ユーザーID
-- ワンタイムコード
-- 生成日時
-- 有効期限
-- 使用済みフラグ
-
 ### 収入管理
 - 収入ID
 - ユーザーID
@@ -56,40 +48,36 @@
 
 ## ユースケース
 ### ユースケース一覧
-| #   | Entity   | UseCase        | Description          |
-| --- | -------- | -------------- | -------------------- |
-| 1   | Login    | postLogin      | Googleログイン       |
-| 2   | OTP      | postOTP        | ワンタイムパスワード |
-| 3   | User     | getUser        | ユーザー情報取得     |
-| 4   | Income   | postIncome     | 収入登録             |
-| 5   | Income   | getIncomes     | 収入一覧取得         |
-| 6   | Income   | patchIncome    | 収入更新             |
-| 7   | Income   | deleteIncome   | 収入削除             |
-| 8   | Expense  | postExpense    | 支出登録             |
-| 9   | Expense  | getExpenses    | 支出一覧取得         |
-| 10  | Expense  | patchExpense   | 支出更新             |
-| 11  | Expense  | deleteExpense  | 支出削除             |
-| 12  | Category | postCategory   | カテゴリ登録         |
-| 13  | Category | getCategories  | カテゴリ一覧取得     |
-| 14  | Category | patchCategory  | カテゴリ更新         |
-| 15  | Category | deleteCategory | カテゴリ削除         |
-| 16  | Budget   | postBudget     | 予算登録             |
-| 17  | Budget   | getBudgets     | 予算一覧取得         |
-| 18  | Budget   | patchBudget    | 予算更新             |
-| 19  | Budget   | deleteBudget   | 予算削除             |
+| #   | Entity   | UseCase        | Description      |
+| --- | -------- | -------------- | ---------------- |
+| 1   | Login    | postLogin      | Googleログイン   |
+| 2   | 欠番     | 欠番           | 欠番             |
+| 3   | User     | getUser        | ユーザー情報取得 |
+| 4   | Income   | postIncome     | 収入登録         |
+| 5   | Income   | getIncomes     | 収入一覧取得     |
+| 6   | Income   | patchIncome    | 収入更新         |
+| 7   | Income   | deleteIncome   | 収入削除         |
+| 8   | Expense  | postExpense    | 支出登録         |
+| 9   | Expense  | getExpenses    | 支出一覧取得     |
+| 10  | Expense  | patchExpense   | 支出更新         |
+| 11  | Expense  | deleteExpense  | 支出削除         |
+| 12  | Category | postCategory   | カテゴリ登録     |
+| 13  | Category | getCategories  | カテゴリ一覧取得 |
+| 14  | Category | patchCategory  | カテゴリ更新     |
+| 15  | Category | deleteCategory | カテゴリ削除     |
+| 16  | Budget   | postBudget     | 予算登録         |
+| 17  | Budget   | getBudgets     | 予算一覧取得     |
+| 18  | Budget   | patchBudget    | 予算更新         |
+| 19  | Budget   | deleteBudget   | 予算削除         |
 
 ### ユースケース詳細
 #### 1. postLogin (api/auth/login)
 - ユーザーがGoogleログインを行う
 - ユーザーがログインに成功すると、ユーザー情報を返す
-- 新規ユーザーの場合は、ユーザー情報を登録しOTPを生成する
+- 新規ユーザーの場合は、ユーザー情報を登録する
 - 削除済みユーザーの場合は、エラーメッセージを返す
-- ユーザー情報が登録済みの場合は、OTPを生成する
 
-#### 2. postOTP (api/auth/otp)
-- ユーザーがワンタイムパスワードを入力する
-- ワンタイムパスワードが正しい場合は、アクセストークン・リフレッシュトークンを返す
-- ワンタイムパスワードが正しくない場合は、エラーメッセージを返す
+#### 2. 欠番
 
 #### 3. getUser (api/user/{userId})
 - アクセストークンが正しい場合は、ユーザー情報を返す
@@ -107,7 +95,7 @@
 - ユーザーが登録した収入一覧を取得する
 - 削除済みの収入情報は取得しない
 - 日時によるソートが可能
-- 金額によるソートが可能
+- 金額によるソートが可能(これはフロントエンドで制御)
 - カテゴリによるフィルタリングが可能
 
 #### 6. patchIncome (api/income/{incomeId})
@@ -189,8 +177,7 @@
 | PK / GSI-2-SK / GSI-3-PK / GSI-4-PK | SK                      | GSI-1-PK                         | GSI-1-SK / GSI-4-SK | GSI-2-PK          | GSI-3-SK        | Attributes                                                                                 |
 | ----------------------------------- | ----------------------- | -------------------------------- | ------------------- | ----------------- | --------------- | ------------------------------------------------------------------------------------------ |
 | UserID                              | DateType                | CategoryID                       | Date                | IsDeleted         | Amount          | -                                                                                          |
-| `USER#<ユーザーID>`                 | `PROFILE`               | -                                | -                   | `isDeleted#false` | -               | `email`, `providerName`, `providerId`, `activeFlag`, `createdAt`, `updatedAt`, `isDeleted` |
-| `USER#<ユーザーID>`                 | `OTP#<コードID>`        | -                                | -                   | `isDeleted#false` | -               | `otpCode`, `generatedAt`, `expiresAt`, `usedFlag`, `isDeleted`                             |
+| `USER#<ユーザーID>`                 | `PROFILE`               | -                                | -                   | `isDeleted#false` | -               | `email`, `providerName`, `providerId`, `activeFlag`, `createdAt`, `updatedAt`, `isDeleted` |  |
 | `USER#<ユーザーID>`                 | `INCOME#<収入ID>`       | `CATEGORY#<カテゴリID>`          | `DATE#<日付>`       | `isDeleted#false` | `AMOUNT#<金額>` | `categoryId`, `amount`, `date`, `description`, `createdAt`, `updatedAt`, `isDeleted`       |
 | `USER#<ユーザーID>`                 | `EXPENSE#<支出ID>`      | `CATEGORY#<カテゴリID>`          | `DATE#<日付>`       | `isDeleted#false` | `AMOUNT#<金額>` | `categoryId`, `amount`, `date`, `description`, `createdAt`, `updatedAt`, `isDeleted`       |
 | `USER#<ユーザーID>`                 | `CATEGORY#<カテゴリID>` | `CATEGORY_TYPE#<カテゴリタイプ>` | -                   | `isDeleted#false` | -               | `name`, `userId`, `categoryType`, `createdAt`, `updatedAt`, `isDeleted`                    |
@@ -232,11 +219,6 @@
 | ------------ | --------- | ---------------- | ------------ | ---------- | ---------- | ------------------- | ------------------- | --------- | ----------------- |
 | `USER#12345` | `PROFILE` | user@example.com | Google       | 12345      | true       | 2024-09-01 10:00:00 | 2024-09-01 12:00:00 | false     | `isDeleted#false` |
 
-#### 二重認証コード管理
-
-| PK           | SK           | otpCode | generatedAt         | expiresAt           | usedFlag | isDeleted | GSI-2-PK          |
-| ------------ | ------------ | ------- | ------------------- | ------------------- | -------- | --------- | ----------------- |
-| `USER#12345` | `OTP#OTP001` | 123456  | 2024-09-01 10:00:00 | 2024-09-01 10:05:00 | false    | false     | `isDeleted#false` |
 
 #### 収入管理
 
@@ -269,9 +251,8 @@
    
     ユーザー管理テーブル (USER#<ユーザーID>, PROFILE) はGoogleログインに対応しています。削除されたユーザーを考慮する場合、isDeleted フラグをチェックすることで、削除済みユーザーの処理も適切に行えます。
 
-2. postOTP:
+2. 欠番:
 
-    二重認証コード管理 (OTP#<コードID>) に対しても、isDeleted フラグをチェックしてクエリできます。OTPの生成日時や有効期限の管理も既に含まれています。
 
 3. getUser:
 

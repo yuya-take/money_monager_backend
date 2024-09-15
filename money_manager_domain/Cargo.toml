@@ -1,5 +1,5 @@
 [package]
-name = "money-manager-adapter"
+name = "money_manager_domain"
 edition = "2021"
 version.workspace = true
 description.workspace = true

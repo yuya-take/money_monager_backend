@@ -1,17 +1,57 @@
 [workspace]
 members = [ 
-    "money-manager-adapter",
-    "money-manager-app",
-    "money-manager-driver",
-    "money-manager-domain"
+    "money_manager_adapter",
+    "money_manager_app",
+    "money_manager_driver",
+    "money_manager_domain"
 ]
 resolver = "2"
 
 [workspace.package]
 version = "1.0.0"
-description = "API for smcon application"
+description = "API for money manager application"
 
 [workspace.dependencies]
 # 日付関連クレート
 chrono = { version = "0.4.38", features = ["serde"] }
 chrono-tz = { version = "0.10.0", features = ["serde"] }
+
+# サーバー構築
+axum = "0.7.5"
+mime = "0.3.17"
+tower = "0.4.13"
+tower-http = { version = "0.5.2", features = ["trace", "cors"] }
+
+# AWS関連クレート
+aws-sdk-dynamodb = "1.13.1"
+serde_dynamo = { version = "4.2.13", features = ["aws-sdk-dynamodb+1"] }
+aws-config = { version = "1", features = ["behavior-version-latest"] }
+
+
+# 非同期
+tokio = { version="1.39.2", features = ["full"] }
+async-trait = "0.1.81"
+
+# JSONとRustのシリアライズ・デシリアライズ
+serde = { version="1.0.207", features = ["derive"] }
+serde_json = "1.0.124"
+derive-new = "0.6.0"
+validator = { version = "0.18.1", features = ["derive"] }
+
+# 環境変数を扱う
+dotenv = "0.15.0"
+
+# ロギング関連クレート
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+
+# openapi関連クレート
+utoipa = { version = "4.2.3", features = ["axum_extras"]}
+utoipa-swagger-ui = { version = "7.1.0", features = ["axum"] }
+
+# エラー関連のクレート
+thiserror = "1.0.63"
+anyhow = "1.0.86"
+
+# その他
+

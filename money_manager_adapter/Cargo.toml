@@ -1,0 +1,29 @@
+[package]
+name = "money_manager_adapter"
+edition = "2021"
+version.workspace = true
+description.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+aws-config = { workspace = true }
+aws-sdk-dynamodb = { workspace = true }
+serde_dynamo = { workspace = true }
+
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+
+chrono = { workspace = true }
+chrono-tz = { workspace = true }
+
+tokio = { workspace = true }
+async-trait = { workspace = true }
+
+serde = { workspace = true }
+derive-new = { workspace = true }
+
+dotenv = { workspace = true }
+
+tracing = { workspace = true }
+

@@ -1228,6 +1228,7 @@ dependencies = [
  "chrono-tz",
  "derive-new",
  "dotenv",
+ "money_manager_domain",
  "serde",
  "serde_dynamo",
  "thiserror",
@@ -1238,10 +1239,21 @@ dependencies = [
 [[package]]
 name = "money_manager_app"
 version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "derive-new",
+ "money_manager_adapter",
+ "money_manager_domain",
+ "serde",
+]
 
 [[package]]
 name = "money_manager_domain"
 version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "async-trait",
+]
 
 [[package]]
 name = "money_manager_driver"
@@ -1253,6 +1265,7 @@ dependencies = [
  "dotenv",
  "mime",
  "money_manager_adapter",
+ "money_manager_app",
  "serde",
  "serde_json",
  "thiserror",

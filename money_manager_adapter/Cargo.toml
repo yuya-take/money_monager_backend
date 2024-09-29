@@ -7,6 +7,8 @@ description.workspace = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+money_manager_domain = { path = "../money_manager_domain" }
+
 aws-config = { workspace = true }
 aws-sdk-dynamodb = { workspace = true }
 serde_dynamo = { workspace = true }

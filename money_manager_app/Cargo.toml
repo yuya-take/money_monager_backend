@@ -7,3 +7,9 @@ description.workspace = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+money_manager_adapter = { path = "../money_manager_adapter" }
+money_manager_domain = { path = "../money_manager_domain" }
+
+derive-new = { workspace = true }
+serde = { workspace = true }
+anyhow = { workspace = true }

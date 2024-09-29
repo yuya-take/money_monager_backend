@@ -5,7 +5,7 @@ use axum::http::StatusCode;
 use axum::response::IntoResponse;
 
 use crate::context::error::ApiError;
-use crate::module::Modules;
+use crate::module::{Modules, ModulesExt};
 
 #[utoipa::path(
     get,
@@ -34,15 +34,13 @@ pub async fn hc_dynamodb(
     Extension(module): Extension<Arc<Modules>>,
 ) -> Result<impl IntoResponse, ApiError> {
     tracing::info!("hc_dynamodb");
-    todo!();
-    Ok(StatusCode::NO_CONTENT)
-    // module
-    //     .health_check_use_case()
-    //     .diagnose_mysql_conn()
-    //     .await
-    //     .map(|_| StatusCode::NO_CONTENT)
-    //     .map_err(|e| {
-    //         tracing::error!("Failed to diagnose mysql conn: {:?}", e);
-    //         ApiError::DatabaseConnectionError()
-    //     })
+    module
+        .health_check_use_case()
+        .diagnose_dynamodb_conn()
+        .await
+        .map(|_| StatusCode::NO_CONTENT)
+        .map_err(|e| {
+            tracing::error!("Failed to diagnose mysql conn: {:?}", e);
+            ApiError::DatabaseConnectionError()
+        })
 }

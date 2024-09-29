@@ -2,6 +2,7 @@ use std::{env, sync::Arc};
 
 use axum::{
     extract::{Extension, MatchedPath, Request},
+    routing::get,
     Router,
 };
 use dotenv::dotenv;
@@ -13,7 +14,10 @@ use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
-use crate::module::Modules;
+use crate::{
+    module::Modules,
+    route::health_check::{hc_dynamodb, hc_hello},
+};
 
 pub async fn create_app(modules: Arc<Modules>) {
     let log_level = env::var("RUST_LOG").unwrap_or("info".to_string());
@@ -39,12 +43,12 @@ pub fn create_router(modues: Arc<Modules>) -> Router {
         .allow_methods(Any)
         .allow_origin(Any)
         .allow_headers(Any);
-    // let hc_router = Router::new()
-    //     .route("/", get(hc_hello))
-    //     .route("/dynamodb", get(hc_dynamodb));
+    let hc_router = Router::new()
+        .route("/", get(hc_hello))
+        .route("/dynamodb", get(hc_dynamodb));
     Router::new()
         .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", ApiDoc::openapi()))
-        // .nest("/hc", hc_router)
+        .nest("/hc", hc_router)
         .layer(Extension(modues))
         .layer(cors)
         .layer(TraceLayer::new_for_http().make_span_with(|req: &Request| {
@@ -67,8 +71,11 @@ pub fn init_app() {
 #[openapi(
     paths(
         // ヘルスチェック
-        // crate::route::health_check::hc_hello,
-        // crate::route::health_check::hc_mysql,
+        crate::route::health_check::hc_hello,
+        crate::route::health_check::hc_dynamodb,
+        // 認証
+        // 収入
+        // 支出
     ),
     components(
         schemas(
@@ -76,8 +83,9 @@ pub fn init_app() {
     ),
     tags(
         (name = "Health Check", description = "ヘルスチェック"),
-        (name = "Book", description = "書籍"),
-        (name = "Author", description = "著者")
+        (name = "Auth", description = "認証"),
+        (name = "Income", description = "収入"),
+        (name = "Expense", description = "支出"),
     ),
 )]
 pub struct ApiDoc;

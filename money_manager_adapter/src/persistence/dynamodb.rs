@@ -7,18 +7,20 @@ use aws_sdk_dynamodb::Client;
 use dotenv::dotenv;
 
 #[derive(Clone)]
-pub struct DynamoDB(pub(crate) Arc<Client>);
-
+pub struct DynamoDB {
+    pub(crate) client: Arc<Client>,
+}
 impl DynamoDB {
     // DynamoDBインスタンスを作成
-    pub async fn new() -> DynamoDB {
-        let client = init_client().await;
-        DynamoDB(Arc::new(client))
+    pub fn new(client: Client) -> DynamoDB {
+        DynamoDB {
+            client: Arc::new(client),
+        }
     }
 }
 
 // クライアントの初期化
-async fn init_client() -> Client {
+pub async fn init_client() -> Client {
     let config = load_from_env().await;
     dotenv().ok();
     let endpoint_url =

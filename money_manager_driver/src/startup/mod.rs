@@ -16,7 +16,10 @@ use utoipa_swagger_ui::SwaggerUi;
 
 use crate::{
     module::Modules,
-    route::health_check::{hc_dynamodb, hc_hello},
+    route::{
+        health_check::{hc_dynamodb, hc_hello},
+        user::get_user,
+    },
 };
 
 pub async fn create_app(modules: Arc<Modules>) {
@@ -46,9 +49,11 @@ pub fn create_router(modues: Arc<Modules>) -> Router {
     let hc_router = Router::new()
         .route("/", get(hc_hello))
         .route("/dynamodb", get(hc_dynamodb));
+    let user_router = Router::new().route("/:userId", get(get_user));
     Router::new()
         .merge(SwaggerUi::new("/swagger-ui").url("/api-docs/openapi.json", ApiDoc::openapi()))
         .nest("/hc", hc_router)
+        .nest("/user", user_router)
         .layer(Extension(modues))
         .layer(cors)
         .layer(TraceLayer::new_for_http().make_span_with(|req: &Request| {
@@ -74,16 +79,20 @@ pub fn init_app() {
         crate::route::health_check::hc_hello,
         crate::route::health_check::hc_dynamodb,
         // 認証
+        // ユーザ
+        crate::route::user::get_user,
         // 収入
         // 支出
     ),
     components(
         schemas(
+            crate::model::user::UserResponse,
         )
     ),
     tags(
         (name = "Health Check", description = "ヘルスチェック"),
         (name = "Auth", description = "認証"),
+        (name = "User", description = "ユーザ"),
         (name = "Income", description = "収入"),
         (name = "Expense", description = "支出"),
     ),

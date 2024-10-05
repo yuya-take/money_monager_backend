@@ -20,8 +20,7 @@ impl HealthCheckRepositoryImpl {
 #[async_trait]
 impl HealthCheckRepository for HealthCheckRepositoryImpl {
     async fn check_dynamodb_conn(&self) -> anyhow::Result<()> {
-        let dynamo_db = self.dynamo_db.0.clone();
-        let _ = dynamo_db.list_tables().send().await?;
+        let _ = self.dynamo_db.client.list_tables().send().await?;
         Ok(())
     }
 }

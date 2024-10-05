@@ -76,8 +76,6 @@
 |---|---|---|
 | userId | integer | ユーザーID |
 | username | string | ユーザー名 |
-| email | string | メールアドレス |
-| userIcon | string | ユーザーアイコン |
 
 **エラーレスポンス**
 

@@ -1245,6 +1245,7 @@ dependencies = [
  "money_manager_adapter",
  "money_manager_domain",
  "serde",
+ "tracing",
 ]
 
 [[package]]

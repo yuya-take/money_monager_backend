@@ -13,3 +13,5 @@ money_manager_domain = { path = "../money_manager_domain" }
 derive-new = { workspace = true }
 serde = { workspace = true }
 anyhow = { workspace = true }
+
+tracing = { workspace = true }
